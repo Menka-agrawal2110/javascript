@@ -1,37 +1,33 @@
- document.queryselector('#push').onclick =
-     function addtask() {
+document.querySelector('#push').onclick = function addtask() {
+    const inputField = document.querySelector('#newtask input');
+    const taskContainer = document.querySelector('#task');
 
-         if (document.queryselector('#newtask input').
-             value.length == 0) {
-             window.alert("please Enter a Task");
-         }
-         else {
-             document.querySelector('#task').innerHTML
-                 += `${<div class="task">
-                     <span id="taskname">
-                         {document.queryselector('#newtask input').
-                             value}
-                     </span>
-                     <button class="delete">X</button>
-                 </div>}
-            `;
+    if (inputField.value.trim().length === 0) {
+        window.alert("Please enter a task");
+    } else {
+        taskContainer.innerHTML += `
+            <div class="task">
+                <span class="taskname">${inputField.value}</span>
+                <button class="delete">X</button>
+            </div>
+        `;
 
-             var current_task = document.querySelectorAll('.delete');
+        // Add delete functionality
+        const current_tasks = document.querySelectorAll('.delete');
+        current_tasks.forEach(button => {
+            button.onclick = function () {
+                this.parentNode.remove();
+            };
+        });
 
-             for (var i = 0; i < current_task.length; i++) {
-                 current_task[i].onclick = function () {
-                     this.parentnode.remove();
-                 };
-             }
-             var task = document.querySelectorAll('#taskname');
+        // Add task complete toggle functionality
+        const taskNames = document.querySelectorAll('.taskname');
+        taskNames.forEach(name => {
+            name.onclick = function () {
+                this.classList.toggle('completed');
+            };
+        });
 
-
-             for (var i = 0; i < task.length; i++) {
-                 task[i].onclick = function () {
-                     this.classlist.toggle('completed');
-                 };
-             }
-             documet.querySelector('#newtask input').
-                 value = "";
-         }
-     }
+        inputField.value = ""; // Clear input after adding task
+    }
+};
